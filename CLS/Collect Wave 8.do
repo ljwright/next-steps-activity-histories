@@ -46,7 +46,7 @@ save "`Temp'", replace
 
 * 2. Activity History
 use NSID W8HISTID W8HISTSTPM W8HISTSTPY W8DACTIVITYP ///
-	using "${act_fld}/ns8_2015_activity_history", clear
+	using "${main_fld}/ns8_2015_activity_history", clear
 rename W8* *
 numlabel, add
 
@@ -59,13 +59,13 @@ replace Start_Y=HISTSTPY if inrange(HISTSTPY,1990,2016)
 replace Start_MY=ym(HISTSTPY,HISTSTPM) ///
 	if inrange(HISTSTPY,1990,2016) & inrange(HISTSTPM,1,12)
 	
-keep NSID Wave Activity Start* Spell
+keep NSID Wave Activity Start*
 format *MY %tm
 compress
 append using "`Temp'"
 
 
 * 3. Combine
-by NSID Wave (Spell), sort: replace Spell = _N + 1 - _n
+by NSID Wave (Spell), sort: replace Spell=_N+1+ _n
 sort NSID Spell
-save "${dta_fld}/Wave 8", replace
+save "${act_fld}/Wave 8", replace

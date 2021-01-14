@@ -10,15 +10,15 @@
 	* Get Current Activity Data
 		* Merge with Activity History, Wave 6 and Interview Grid
 use NSID W7ActStillYP W7ActContYP W7StillEdChkYP W7TCurrentAct using ///
-	"${main_fld}/wave_seven_lsype_young_person_2020", clear
-merge 1:1 NSID using "${main_fld}/wave_six_lsype_young_person_2020", ///
+	"${main_fld}/lsype_w7_nov2011_suppressed", clear
+merge 1:1 NSID using "${main_fld}/lsype_wave_six_young_person_file_october_2010", ///
 	nogen keep(match master) keepusing(W6TCurrentAct) 
-merge 1:1 NSID using "${dta_fld}/Interview Grid", ///
+merge 1:1 NSID using "${act_fld}/Interview Grid", ///
 	nogen keep(match master) keepusing(*6 *7)
 preserve
 	local file: subinstr global path "XX" "seven"
-	use "${act_fld}/`file'", clear
-// 	rename nsid NSID
+	use "`file'", clear
+	rename nsid NSID
 	keep NSID
 	duplicates drop
 	tempfile Temp
@@ -62,8 +62,8 @@ save "`Temp'", replace
 * 2. Activity History
 	* Load Data and Clean
 local file: subinstr global path "XX" "seven"
-use "${act_fld}/`file'", clear
-// rename nsid NSID
+use "`file'", clear
+rename nsid NSID
 rename W7* *
 keep NSID ActivityPeriod TIterationActivity JHStill ActStpY ActStpM
 recode JH* (-91=.i)
@@ -71,7 +71,7 @@ recode JH* (min/0=.m)
 numlabel, add
 ds NSID, not
 format `r(varlist)' %9.0g
-merge m:1 NSID using "${dta_fld}/Interview Grid", ///
+merge m:1 NSID using "${act_fld}/Interview Grid", ///
 	nogen keep(match master) keepusing(*6 *7)
 
 	* Generate Wave and Spell
@@ -129,4 +129,4 @@ keep NSID Wave Spell Activity Start*
 format *MY %tm
 compress
 append using "`Temp'"
-save "${dta_fld}/Wave 7", replace
+save "${act_fld}/Wave 7", replace

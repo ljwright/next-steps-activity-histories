@@ -12,15 +12,15 @@ forval wave=4/6{
 	* Load Data and Rename Variables
 	if `wave'==4{
 		use NSID W4MainAct* W4ActSt* W4SepChckYP W4OldSkuleYP using ///
-			"${main_fld}/wave_four_lsype_young_person_2020", clear
+			"${main_fld}/wave_four_lsype_young_person_september_2009", clear
 		}
 	if `wave'==5{
 		use NSID W5actYP W5ActSt* using ///
-			"${main_fld}/wave_five_lsype_young_person_2020", clear
+			"${main_fld}/wave_five_lsype_young_person_march_2010", clear
 		}
 	if `wave'==6{
 		use NSID W6TCurrentAct W6ActSt* W6SchToUniYP using ///
-			"${main_fld}/wave_six_lsype_young_person_2020", clear
+			"${main_fld}/lsype_wave_six_young_person_file_october_2010", clear
 		}		
 	rename W`wave'* *
 	rename *YP *
@@ -103,8 +103,8 @@ forval wave=4/6{
 	
 	* Open File and Clean
 	local file: subinstr global path "XX" "`num'"
-	use "${act_fld}/`file'", clear
-// 	rename nsid NSID
+	use "`file'", clear
+	rename nsid NSID
 	rename W`wave'* *
 	rename Activity*teration, lower 
 	keep NSID-JHSt`letter'DK
@@ -186,5 +186,5 @@ forval wave=4/6{
 	format `r(varlist)' %7.0g	
 	format *MY %tm
 	by NSID (Spell), sort: replace Spell=_N+1-_n
-	save "${dta_fld}/Wave `wave'", replace
+	save "${act_fld}/Wave `wave'", replace
 	}

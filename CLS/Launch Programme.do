@@ -8,12 +8,11 @@
 ********************************************************************************
 
 * 1. File Paths and Directories
-cd "C:\Users\liamj\Documents\Datasets\Next Steps - Wave 1- 8 - 2021-01-14"
-global main_fld	"stata\stata13\eul"
-global dta_fld	"Projects/Activity Histories/Data"
-global act_fld	"stata\stata13\activity_histories"
+cd "D:\Next Steps 1-8\"
+global main_fld	"stata11"
+global act_fld	"Projects/Activity Histories/Data"
+global path		"${act_fld}/Raw/wave_XX_activity_history_file.dta"
 global do_fld	"Projects/Activity Histories/Code"
-global path "wave_XX_activity_history_file_2020"
 
 * 2. Set Maximum Gap to Imputes
 global gap			6

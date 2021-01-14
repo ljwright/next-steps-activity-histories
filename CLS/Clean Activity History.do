@@ -6,19 +6,19 @@
 ********************************************************************************
 
 * 1. Append Data Together
-use "${dta_fld}/Wave ${first_wave}", clear
+use "${act_fld}/Wave ${first_wave}", clear
 local j = $first_wave +1
 forval i=`j'/$last_wave{
-	append using "${dta_fld}/Wave `i'"
+	append using "${act_fld}/Wave `i'"
 	}
 sort NSID Wave Spell
 order NSID Wave Spell
-save "${dta_fld}/Activity Histories", replace
+save "${act_fld}/Activity Histories", replace
 
 
 * 2. Merge with Interview Grid
 preserve
-	use "${dta_fld}/Interview Grid", clear
+	use "${act_fld}/Interview Grid", clear
 	reshape long IntDate_MY, i(NSID) j(Wave)
 	encode NSID, gen(XX)
 	xtset XX Wave
@@ -291,9 +291,9 @@ label values Activity Activity
 label values *Flag Flag
 format Activity *Flag %9.0g
 numlabel, add
-save "${dta_fld}/Activity Histories", replace
+save "${act_fld}/Activity Histories", replace
 
 
 forval i=$first_wave/$last_wave {
-	rm "${dta_fld}/Wave `i'.dta"
+	rm "${act_fld}/Wave `i'.dta"
 	}
